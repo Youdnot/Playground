@@ -24,8 +24,7 @@ def clip_subvideos(input_video_name, output_length, output_fps, output_width, ou
 
     # 获取视频的总帧数、帧率和尺寸
     total_frames = int(cap.get(cv.CAP_PROP_FRAME_COUNT))
-    input_fps = cap.get(cv.CAP_PROP_FPS)    # 这里的原始帧率不是整数(29.99),会对后面跳过帧运算造成影响
-    input_fps = 30
+    input_fps = np.ceil(cap.get(cv.CAP_PROP_FPS))    # 原始帧率不是整数(29.99),会对后面跳过帧运算造成影响,所以向上取整
     factor = int(input_fps // output_fps)    # 用于跳过帧的因子
     
     width = int(cap.get(cv.CAP_PROP_FRAME_WIDTH))
@@ -63,13 +62,13 @@ def clip_subvideos(input_video_name, output_length, output_fps, output_width, ou
         center_y = height // 2
         
         # 只处理子视频长度（对应原视频帧数）的帧数
-        # 即原视频30fps 1min对应1800帧，使用跳过条件每三帧取一帧，对应10fps输出给定长度
+        # 即原视频30fps 1min 1800帧，使用跳过条件每三帧取一帧，对应10fps输出给定长度
         for i in range(output_frames * factor):
             ret, frame = cap.read()
             if not ret:
                 break
             
-            # 根据输出帧率跳过无用帧（暂时需要整除）
+            # 根据输出帧率跳过无用帧
             if (i + 1) % factor == 0:
                 # 随机偏移
                 shift_x = np.random.randint(-10, 11)
