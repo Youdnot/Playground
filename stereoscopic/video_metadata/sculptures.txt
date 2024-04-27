@@ -1,0 +1,68 @@
+General
+Complete name                  : C:\Users\joeyz\Code\Playground\stereoscopic\Dataset\videos\sculptures.mp4
+Format                         : MPEG-4
+Format profile                 : Base Media / Version 2
+Codec ID                       : mp42 (mp41/mp42/isom)
+File size                      : 74.8 MiB
+Duration                       : 1 min 0 s
+Overall bit rate               : 10.5 Mb/s
+Frame rate                     : 25.000 FPS
+Encoded date                   : 2017-04-11 01:23:50 UTC
+Tagged date                    : 2017-04-11 01:23:53 UTC
+
+Video
+ID                             : 1
+Format                         : AVC
+Format/Info                    : Advanced Video Codec
+Format profile                 : High@L5.1
+Format settings                : CABAC / 2 Ref Frames
+Format settings, CABAC         : Yes
+Format settings, Reference fra : 2 frames
+Codec ID                       : avc1
+Codec ID/Info                  : Advanced Video Coding
+Duration                       : 1 min 0 s
+Source duration                : 1 min 2 s
+Bit rate                       : 9 936 kb/s
+Width                          : 3 840 pixels
+Height                         : 2 048 pixels
+Display aspect ratio           : 1.85:1
+Frame rate mode                : Constant
+Frame rate                     : 25.000 FPS
+Color space                    : YUV
+Chroma subsampling             : 4:2:0
+Bit depth                      : 8 bits
+Scan type                      : Progressive
+Bits/(Pixel*Frame)             : 0.051
+Stream size                    : 71.1 MiB (95%)
+Source stream size             : 73.9 MiB (99%)
+Title                          : Core Media Video
+Encoded date                   : 2017-04-11 01:23:50 UTC
+Tagged date                    : 2017-04-11 01:23:53 UTC
+Color range                    : Limited
+Color primaries                : BT.709
+Transfer characteristics       : BT.709
+Matrix coefficients            : BT.709
+Codec configuration box        : avcC
+
+Audio
+ID                             : 2
+Format                         : AAC LC
+Format/Info                    : Advanced Audio Codec Low Complexity
+Codec ID                       : mp4a-40-2
+Duration                       : 1 min 0 s
+Source duration                : 1 min 0 s
+Bit rate mode                  : Constant
+Bit rate                       : 126 kb/s
+Channel(s)                     : 2 channels
+Channel layout                 : L R
+Sampling rate                  : 44.1 kHz
+Frame rate                     : 43.066 FPS (1024 SPF)
+Compression mode               : Lossy
+Stream size                    : 920 KiB (1%)
+Source stream size             : 922 KiB (1%)
+Title                          : Core Media Audio
+Default                        : Yes
+Alternate group                : 1
+Encoded date                   : 2017-04-11 01:23:50 UTC
+Tagged date                    : 2017-04-11 01:23:53 UTC
+

@@ -1,0 +1,43 @@
+General
+Complete name                  : C:\Users\joeyz\Code\Playground\stereoscopic\Dataset\videos\ship.mp4
+Format                         : MPEG-4
+Format profile                 : Base Media / Version 2
+Codec ID                       : mp42 (mp41/mp42/isom)
+File size                      : 151 MiB
+Duration                       : 59 s 999 ms
+Overall bit rate               : 21.1 Mb/s
+Frame rate                     : 25.000 FPS
+Encoded date                   : 2017-12-22 23:00:45 UTC
+Tagged date                    : 2017-12-22 23:00:48 UTC
+
+Video
+ID                             : 1
+Format                         : AVC
+Format/Info                    : Advanced Video Codec
+Format profile                 : High@L5.1
+Format settings                : CABAC / 4 Ref Frames
+Format settings, CABAC         : Yes
+Format settings, Reference fra : 4 frames
+Codec ID                       : avc1
+Codec ID/Info                  : Advanced Video Coding
+Duration                       : 59 s 999 ms
+Source duration                : 1 min 0 s
+Source_Duration_LastFrame      : 45 ms
+Bit rate                       : 21.1 Mb/s
+Width                          : 3 840 pixels
+Height                         : 2 160 pixels
+Display aspect ratio           : 16:9
+Frame rate mode                : Constant
+Frame rate                     : 25.000 FPS
+Color space                    : YUV
+Chroma subsampling             : 4:2:0
+Bit depth                      : 8 bits
+Scan type                      : Progressive
+Bits/(Pixel*Frame)             : 0.102
+Stream size                    : 151 MiB (100%)
+Source stream size             : 151 MiB (100%)
+Title                          : Core Media Video
+Encoded date                   : 2017-12-22 23:00:45 UTC
+Tagged date                    : 2017-12-22 23:00:48 UTC
+Codec configuration box        : avcC
+
