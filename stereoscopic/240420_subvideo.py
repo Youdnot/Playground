@@ -8,15 +8,23 @@ import numpy as np
 # 尝试先生成一个降帧率的原视频，再对原视频进行分割，看效率是否会有提升
 
 # hyperparameter
-input_video_name = "dunerovers"
+ideal_input_length = 60 # seconds
 #  设置输出帧率和尺寸
 output_length = 56 # seconds
 output_fps = 10
 output_width, output_height = 1280, 720
 
-def initialization(input_video_name):
+def dir_initialization():
     """
-    初始化
+    读取所有视频样本名称
+    """
+    video_names = os.listdir("Dataset/videos")
+    video_names = [name.split(".")[0] for name in video_names]
+    print(video_names)
+    return video_names
+def video_initialization(input_video_name):
+    """
+    初始化视频读取信息
     """
     cap = cv.VideoCapture(f"Dataset/videos/{input_video_name}.mp4")
 
@@ -56,6 +64,46 @@ def downsample_video(input_video_name, total_frames, input_fps, width, height, o
         if (i + 1) % factor == 0:
             # print(f"{i}, {(i + 1) % factor}")
             out.write(frame)
+
+    out.release()
+    cap.release()
+
+def downsample_video_uneven(input_video_name, total_frames, input_fps, width, height, output_path, output_fps, ideal_input_length):
+    """
+    生成一个降帧率的原视频
+    对于无法整除的特殊帧率重新编写逻辑，以1s为单位进行循环
+    """
+    cap = cv.VideoCapture(f"Dataset/videos/{input_video_name}.mp4")
+
+    factor = int(input_fps // output_fps)    # 用于跳过帧的因子
+
+    fourcc = cv.VideoWriter_fourcc(*"mp4v")
+    out = cv.VideoWriter(f"{output_path}/{input_video_name}_downsample.mp4", fourcc, output_fps, (width, height))
+    
+    # 每一s中进行帧的跳过，余数帧直接丢弃
+    count = 0
+    i = 0
+
+    while i < total_frames:
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        if (i + 1) % factor == 0:
+            out.write(frame)
+            count += factor
+            if count == output_fps*factor:
+                i += (input_fps - count)
+                count = 0
+                # print(f"i = {i}, count = {count}")
+        
+        i += 1
+
+        if i >= input_fps*ideal_input_length:
+            print(f"input_fps: {input_fps}, ideal_input_length: {ideal_input_length}, i: {i}")
+            print(f"frame range exceeds ideal total frames{input_fps*ideal_input_length}, break.")
+            break
+
 
     out.release()
     cap.release()
@@ -125,7 +173,7 @@ def clip_subvideos(input_video_name, output_length, output_fps, output_width, ou
         if total_frames < start_frame + output_frames:
             break
 
-        # break    # 测试用
+        break    # 测试用
 
     # 释放资源
     cap.release()
@@ -136,7 +184,13 @@ def clip_subvideos(input_video_name, output_length, output_fps, output_width, ou
     print(f"Cut Time: {end_time - start_time:.2f} seconds.")
 
 if __name__ == "__main__":
-    total_frames, input_fps, width, height, output_path = initialization(input_video_name)
-    # downsample_video(input_video_name, total_frames, input_fps, width, height, output_path, output_fps)
-    clip_subvideos(input_video_name, output_length, output_fps, output_width, output_height)
-    print("Done.")
+    video_names = dir_initialization()
+    for i in video_names:
+        input_video_name = i
+        print(f"Processing video {input_video_name}...")
+        total_frames, input_fps, width, height, output_path = video_initialization(input_video_name)
+        # downsample_video(input_video_name, total_frames, input_fps, width, height, output_path, output_fps)
+        downsample_video_uneven(input_video_name, total_frames, input_fps, width, height, output_path, output_fps, ideal_input_length)
+        clip_subvideos(input_video_name, output_length, output_fps, output_width, output_height)
+        print(f"Video {input_video_name} Clip Done.")
+        
