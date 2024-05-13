@@ -1,0 +1,20 @@
+,Video_Duration,Video_Source duration,Video_Width,Video_Height,Video_Frame rate mode,Video_Frame rate
+cartooncoaster,1 min 0 s,1 min 1 s,3 840 pixels,2 160 pixels,Constant,30.000 FPS
+dotsall,1 min 0 s,,1 440 pixels,1 440 pixels,Constant,30.000 FPS
+dotsinner,1 min 0 s,,1 440 pixels,1 440 pixels,Constant,30.000 FPS
+dotsouter,1 min 0 s,,1 440 pixels,1 440 pixels,Constant,30.000 FPS
+dunerovers,59 s 993 ms,1 min 0 s,3 840 pixels,2 160 pixels,Constant,30.000 FPS
+flyingcar,59 s 991 ms,1 min 0 s,3 840 pixels,2 160 pixels,Variable,23.976 FPS
+gardens,1 min 0 s,1 min 1 s,3 840 pixels,2 160 pixels,Constant,30.000 FPS
+glowingdance,1 min 0 s,1 min 3 s,2 160 pixels,2 160 pixels,Constant,24.000 FPS
+helicoptercrash,1 min 0 s,1 min 1 s,2 560 pixels,1 440 pixels,Constant,24.000 FPS
+minecraft,1 min 0 s,1 min 2 s,2 160 pixels,2 160 pixels,Constant,30.000 FPS
+oceancoaster,1 min 0 s,1 min 2 s,2 560 pixels,1 440 pixels,Constant,30.000 FPS
+roadcar,59 s 996 ms,1 min 3 s,3 840 pixels,2 160 pixels,Constant,30.000 FPS
+sculptures,1 min 0 s,1 min 2 s,3 840 pixels,2 048 pixels,Constant,25.000 FPS
+sharks,59 s 999 ms,1 min 1 s,3 840 pixels,2 160 pixels,Constant,30.000 FPS
+ship,59 s 999 ms,1 min 0 s,3 840 pixels,2 160 pixels,Constant,25.000 FPS
+skyhouse,1 min 0 s,1 min 0 s,2 560 pixels,1 440 pixels,Constant,30.000 FPS
+snowplanet,59 s 995 ms,1 min 0 s,2 300 pixels,1 440 pixels,Constant,25.000 FPS
+spacevisit,1 min 0 s,1 min 0 s,2 048 pixels,2 048 pixels,Constant,30.000 FPS
+woodencoaster,59 s 999 ms,1 min 4 s,2 560 pixels,1 440 pixels,Constant,30.000 FPS

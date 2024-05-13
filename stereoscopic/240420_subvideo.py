@@ -2,17 +2,9 @@ import cv2 as cv
 import os
 import time
 import numpy as np
-
-# import torch
+import pandas as pd
 
 # 尝试先生成一个降帧率的原视频，再对原视频进行分割，看效率是否会有提升
-
-# hyperparameter
-ideal_input_length = 60 # seconds
-#  设置输出帧率和尺寸
-output_length = 56 # seconds
-output_fps = 10
-output_width, output_height = 1280, 720
 
 def dir_initialization():
     """
@@ -107,7 +99,8 @@ def downsample_video_uneven(input_video_name, total_frames, input_fps, width, he
 
     out.release()
     cap.release()
-def clip_subvideos(input_video_name, output_length, output_fps, output_width, output_height):
+
+def clip_subvideos(input_video_name, output_length, output_fps, output_width, output_height, random_shift_range:int):
     """
     从输入视频中剪切子视频
     """
@@ -119,8 +112,9 @@ def clip_subvideos(input_video_name, output_length, output_fps, output_width, ou
     # 循环创建子视频
     clip_count = 0
     start_frame = 0
+    clip_count = downsample_video_frames - output_frames + 1
 
-    print(f"Should generate {downsample_video_frames - output_frames + 1} clips.")
+    print(f"Should generate {clip_count} clips.")
 
     start_time = time.time()
 
@@ -144,8 +138,8 @@ def clip_subvideos(input_video_name, output_length, output_fps, output_width, ou
                 break
             
             # 随机偏移
-            shift_x = np.random.randint(-10, 11)
-            shift_y = np.random.randint(-10, 11)
+            shift_x = np.random.randint(-random_shift_range, (random_shift_range+1))
+            shift_y = np.random.randint(-random_shift_range, (random_shift_range+1))
             
             # Crop 裁切中心矩形区域
             shifted_frame = cv.getRectSubPix(frame, (output_width, output_height), (center_x+shift_x, center_y+shift_y))
@@ -182,15 +176,40 @@ def clip_subvideos(input_video_name, output_length, output_fps, output_width, ou
     end_time = time.time()
     print(f"Processed {clip_count} clips from video {input_video_name}.")
     print(f"Cut Time: {end_time - start_time:.2f} seconds.")
+    return clip_count
+
+
+# hyperparameter
+ideal_input_length = 60 # seconds
+
+#  设置输出帧率和尺寸
+output_length = 56 # seconds
+output_fps = 10
+output_width, output_height = 1280, 720
+random_shift_range = 10
+
+# 初始化收集裁剪数据的DataFrame
+all_video_clips_dict = {}
+
 
 if __name__ == "__main__":
     video_names = dir_initialization()
     for i in video_names:
         input_video_name = i
         print(f"Processing video {input_video_name}...")
+        current_video_clips_dict = {}
+
         total_frames, input_fps, width, height, output_path = video_initialization(input_video_name)
         # downsample_video(input_video_name, total_frames, input_fps, width, height, output_path, output_fps)
         downsample_video_uneven(input_video_name, total_frames, input_fps, width, height, output_path, output_fps, ideal_input_length)
-        clip_subvideos(input_video_name, output_length, output_fps, output_width, output_height)
+        clip_count = clip_subvideos(input_video_name, output_length, output_fps, output_width, output_height, random_shift_range)
         print(f"Video {input_video_name} Clip Done.")
+
+        # 保存信息到字典中
+        current_video_clips_dict["clip count"] = clip_count
+        all_video_clips_dict[input_video_name] = current_video_clips_dict
+
+    clip_df = pd.DataFrame(all_video_clips_dict)
+
+
         
