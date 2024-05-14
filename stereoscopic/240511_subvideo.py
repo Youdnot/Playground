@@ -201,7 +201,7 @@ def clip_subvideos(input_video_name, output_length, output_fps, output_width, ou
         # 释放输出视频流
         out.release()
 
-        if input_total_frames < start_frame + output_frames:
+        if downsample_video_frames < start_frame + output_frames:
             break
 
         # break    # 测试用
@@ -277,8 +277,3 @@ clip_df = pd.DataFrame(all_video_clips_dict)
 
 
 clip_df.T.to_csv("clip_data.csv", index=True)
-
-
-
-
-
