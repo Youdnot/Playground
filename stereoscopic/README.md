@@ -1,3 +1,21 @@
+# README
+
+目录结构
+
+```
+- Project Folder
+	- Dataset
+		- video_metadata
+		- videos
+		- subvideos*
+	- README.md
+	- requirements.txt
+```
+
+以上为试运行时的代码目录结构，如果需要
+
+# Log
+
 ## 2024.04.20
 
 原视频数据有点问题导致处理出错
