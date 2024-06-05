@@ -126,7 +126,7 @@ def downsample_video_uneven(input_video_name, input_total_frames, input_fps, wid
 
 ## Clips裁剪
 
-def clip_subvideos(input_video_name, output_length, output_fps, output_width, output_height, random_shift_range:int, random_shift_stride:int):
+def clip_subvideos(input_video_name, output_length, output_fps, crop_width, crop_height, output_width, output_height, random_shift_range:int, random_shift_stride:int):
     """
     从输入视频中剪切子视频
     """
@@ -182,10 +182,10 @@ def clip_subvideos(input_video_name, output_length, output_fps, output_width, ou
 
             
             # Crop 裁切中心矩形区域
-            shifted_frame = cv.getRectSubPix(frame, (output_width, output_height), (center_x+shift_x, center_y+shift_y))
+            shifted_frame = cv.getRectSubPix(frame, (crop_width, crop_height), (center_x+shift_x, center_y+shift_y))
 
             # Resize
-            # shifted_frame = cv.resize(shifted_frame, (output_width, output_height))
+            shifted_frame = cv.resize(shifted_frame, (output_width, output_height))
             
             # 写入帧到输出视频
             out.write(shifted_frame)
@@ -231,7 +231,8 @@ ideal_input_length = 60 # seconds
 #  设置输出帧率和尺寸
 output_length = 56 # seconds
 output_fps = 10
-output_width, output_height = 1280, 720
+crop_width, crop_height = 1280, 720    # 过程中对原始画面的裁切大小
+output_width, output_height = 32, 32    # 最终输出对裁切再缩放后的画面大小
 
 # 设置裁剪随机偏移参数
 random_shift_range = 10
@@ -258,7 +259,7 @@ for i in video_names:
         input_total_frames, input_fps, width, height, output_path = video_initialization(input_video_name)
         # downsample_video(input_video_name, input_total_frames, input_fps, width, height, output_path, output_fps)
         downsample_video_frames = downsample_video_uneven(input_video_name, input_total_frames, input_fps, width, height, output_path, output_fps, ideal_input_length)
-        clip_count, clip_count_all, process_time = clip_subvideos(input_video_name, output_length, output_fps, output_width, output_height, random_shift_range, random_shift_stride)
+        clip_count, clip_count_all, process_time = clip_subvideos(input_video_name, output_length, output_fps, crop_width, crop_height, output_width, output_height, random_shift_range, random_shift_stride)
         print(f"Video {input_video_name} Clip Done.")
 
         # 保存信息到字典中
