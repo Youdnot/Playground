@@ -1,50 +1,60 @@
 # README
 
-目录结构
+文件目录结构
 
 ```
-- Project Folder
-	- Dataset
-		- video_metadata
-		- videos
-		- subvideos*
-	- README.md
-	- requirements.txt
+- Root Folder
+	- 2404 Du_dataset
+  - vr.net
+  - README.md
+  - requirements.txt
 ```
 
 以上为试运行时的代码目录结构，如果需要
 
-# Log
+# Du_dataset
 
-## 2024.04.20
+## 文件组织
 
-原视频数据有点问题导致处理出错
+- Dataset文件夹：数据集文件的放置位置
+- eda：简单的数据总览
+- video_metadata：提取生成视频的元数据，后续根据元数据对原始视频进行分割
+- Subvideo：分割程序
 
-以"cartooncoaster.mp4"为例在播放器中文件信息显示时长为1min0s，通过OpenCV读取数据得到如下信息
-Total frames: 1859, FPS: 30.0, Frame size: 3840x2160, Duration: 61.97 seconds.
+# vr.net
 
-按脚本逻辑首先将视频降帧为10fps共619帧，然后子视频长度为10fps 56s 共560帧，则有59帧的滑动空间，生成60个子视频。
-但实际生成结果是到第41为止都正常，往后的子视频会按序号长度逐个减少，如42 59s900ms, 41 59s800ms, 诸如此类
+## 文件组织
 
-通过在播放器里监看视频播放时信息发现帧率一直在波动
+根据 Google Drive 链接提供的文件，数据集的部分组织方式如下：
 
-可能需要重新理解一下视频或者另写一段代码标准化
+单独的压缩包里是object和camera等坐标变化数据，以csv组织；在每个实验的文件夹压缩包中，有图像和zfp以及一个.csv文件。
 
-- 0417是直接读取原视频并输出子视频
-- 0420是先生成降帧率的原视频再读取生成子视频
+### 图像
 
-## 2024.04.27
+三种图像类型包括
 
-补充写了一点代码，使用PotPlayer读取的视频原数据保存为txt，然后读取查看，可以确定原视频帧数相关参数非恒定。后续如果需要继续使用该数据集，可以使用读取的fps相关数据对各个原视频区别标准化，之后再进行分割截取。
+- sRGB
+- Depth
+- Motion flow
 
-## 2024.05.11
+首字母表示了图像的类型，如d s m
 
-暂时使用直接下采样，对于无法整除的特殊源帧率（如24帧），尽可能地保存均匀的帧，但对于余数部分直接丢弃，如24帧降到10帧，在前20帧中每隔2帧取一帧，后4帧直接丢弃。
+### zfp
 
-总时长给超参固定到1min，乘以帧率算总帧数，后续的全部不要。
+ zfp 是一种用于表示多维浮点和整数数组的压缩格式。 zfp 提供压缩数组类，支持对各个数组元素的高吞吐量读写随机访问。
 
-对于可变刷新率的视频要先看一下opencv读取的数据核对一下。
+- [LLNL/zfp: Compressed numerical arrays that support high-speed random access](https://github.com/LLNL/zfp)
+- [zfp 1.0.1 documentation — zfp 1.0.1 documentation](https://zfp.readthedocs.io/en/release1.0.1/)
 
-补一个dataframe保存切出来的数据，方便后续查看。
+## 进度
 
-随机偏移写一下连续
+- [x] 图像数据重新组织为视频方便读取输入
+- [ ] zfp 文件解压读取
+
+## 问题
+
+### zfp文件处理
+
+库的安装可以使用`conda install zfp`从清华源镜像安装，无需重新编译，同时还需要另外安装python的绑定，使用`conda install zfpy`。
+
+在文件解压过程中出现问题。使用`zfpy.decompress_numpy(_compressed_data_)`会产生报错`ValueError: Failed to read required zfp header`，表明数据没有标头，应该使用`zfpy._decompress(compressed_data, ztype, shape)`，但是该函数需要数据的维度作为输入，而文件内对该部分数据的信息没有明确说明。
